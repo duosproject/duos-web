@@ -68,3 +68,5 @@ venv.bak/
 # mkdocs documentation
 /site
 
+# editor
+.vscode/
