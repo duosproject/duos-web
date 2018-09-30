@@ -8,8 +8,12 @@ django = "*"
 pytest = "*"
 requests = "*"
 python-dotenv = "*"
+django-environ = "*"
+"psycopg2-binary" = "*"
 
 [dev-packages]
+pylint = "*"
+black = "*"
 
 [requires]
 python_version = "3.6"
