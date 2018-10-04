@@ -33,7 +33,7 @@ class AuthGroupPermissions(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
+        unique_together = (('group', 'permission'), )
 
 
 class AuthPermission(models.Model):
@@ -44,7 +44,7 @@ class AuthPermission(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
+        unique_together = (('content_type', 'codename'), )
 
 
 class AuthUser(models.Model):
@@ -71,7 +71,7 @@ class AuthUserGroups(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
+        unique_together = (('user', 'group'), )
 
 
 class AuthUserUserPermissions(models.Model):
@@ -81,13 +81,14 @@ class AuthUserUserPermissions(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
+        unique_together = (('user', 'permission'), )
 
 
 class Author(models.Model):
     authorid = models.AutoField(primary_key=True)
     authorname = models.CharField(max_length=255, blank=True, null=True)
-    authoremail = models.CharField(unique=True, max_length=255, blank=True, null=True)
+    authoremail = models.CharField(
+        unique=True, max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -119,7 +120,8 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200)
     action_flag = models.SmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    content_type = models.ForeignKey(
+        'DjangoContentType', models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
@@ -134,7 +136,7 @@ class DjangoContentType(models.Model):
     class Meta:
         managed = False
         db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
+        unique_together = (('app_label', 'model'), )
 
 
 class DjangoMigrations(models.Model):
@@ -172,6 +174,9 @@ class Duosauthor(models.Model):
     authorid = models.AutoField(primary_key=True)
     authorname = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.authorname
+
     class Meta:
         managed = False
         db_table = 'duosauthor'
@@ -190,8 +195,18 @@ class Duosdataset(models.Model):
 class Duosemail(models.Model):
     hash = models.CharField(unique=True, max_length=255, blank=True, null=True)
     emailid = models.AutoField(primary_key=True)
-    authorid = models.ForeignKey(Duosauthor, models.DO_NOTHING, db_column='authorid', blank=True, null=True)
-    articleid = models.ForeignKey(Article, models.DO_NOTHING, db_column='articleid', blank=True, null=True)
+    authorid = models.ForeignKey(
+        Duosauthor,
+        models.DO_NOTHING,
+        db_column='authorid',
+        blank=True,
+        null=True)
+    articleid = models.ForeignKey(
+        Article,
+        models.DO_NOTHING,
+        db_column='articleid',
+        blank=True,
+        null=True)
 
     class Meta:
         managed = False
@@ -200,8 +215,10 @@ class Duosemail(models.Model):
 
 class Duosreference(models.Model):
     refid = models.AutoField(primary_key=True)
-    datasetid = models.ForeignKey(Duosdataset, models.DO_NOTHING, db_column='datasetid')
-    articleid = models.ForeignKey(Duosarticle, models.DO_NOTHING, db_column='articleid')
+    datasetid = models.ForeignKey(
+        Duosdataset, models.DO_NOTHING, db_column='datasetid')
+    articleid = models.ForeignKey(
+        Duosarticle, models.DO_NOTHING, db_column='articleid')
 
     class Meta:
         managed = False
@@ -213,8 +230,10 @@ class Duosvalidation(models.Model):
     comment = models.CharField(max_length=255, blank=True, null=True)
     time_stamp = models.DateTimeField()
     validationid = models.AutoField(primary_key=True)
-    emailid = models.ForeignKey(Duosemail, models.DO_NOTHING, db_column='emailid')
-    refid = models.ForeignKey(Duosreference, models.DO_NOTHING, db_column='refid')
+    emailid = models.ForeignKey(
+        Duosemail, models.DO_NOTHING, db_column='emailid')
+    refid = models.ForeignKey(
+        Duosreference, models.DO_NOTHING, db_column='refid')
 
     class Meta:
         managed = False
@@ -222,8 +241,10 @@ class Duosvalidation(models.Model):
 
 
 class Duoswrites(models.Model):
-    articleid = models.ForeignKey(Duosarticle, models.DO_NOTHING, db_column='articleid')
-    authorid = models.ForeignKey(Duosauthor, models.DO_NOTHING, db_column='authorid')
+    articleid = models.ForeignKey(
+        Duosarticle, models.DO_NOTHING, db_column='articleid')
+    authorid = models.ForeignKey(
+        Duosauthor, models.DO_NOTHING, db_column='authorid')
 
     class Meta:
         managed = False
@@ -235,7 +256,12 @@ class Refs(models.Model):
     objectlabel = models.CharField(max_length=13, blank=True, null=True)
     datasetname = models.CharField(max_length=255, blank=True, null=True)
     context = models.TextField(blank=True, null=True)
-    articleid = models.ForeignKey(Article, models.DO_NOTHING, db_column='articleid', blank=True, null=True)
+    articleid = models.ForeignKey(
+        Article,
+        models.DO_NOTHING,
+        db_column='articleid',
+        blank=True,
+        null=True)
 
     class Meta:
         managed = False
@@ -244,8 +270,14 @@ class Refs(models.Model):
 
 class Validates(models.Model):
     validatesid = models.AutoField(primary_key=True)
-    validatestoken = models.CharField(unique=True, max_length=255, blank=True, null=True)
-    writesid = models.ForeignKey('Writes', models.DO_NOTHING, db_column='writesid', blank=True, null=True)
+    validatestoken = models.CharField(
+        unique=True, max_length=255, blank=True, null=True)
+    writesid = models.ForeignKey(
+        'Writes',
+        models.DO_NOTHING,
+        db_column='writesid',
+        blank=True,
+        null=True)
     createdat = models.DateField(blank=True, null=True)
 
     class Meta:
@@ -255,7 +287,8 @@ class Validates(models.Model):
 
 class Validation(models.Model):
     validationid = models.AutoField(primary_key=True)
-    refid = models.ForeignKey(Refs, models.DO_NOTHING, db_column='refid', blank=True, null=True)
+    refid = models.ForeignKey(
+        Refs, models.DO_NOTHING, db_column='refid', blank=True, null=True)
     validationchoice = models.CharField(max_length=13, blank=True, null=True)
     validationcomment = models.TextField(blank=True, null=True)
     updatedat = models.DateField(blank=True, null=True)
@@ -267,8 +300,14 @@ class Validation(models.Model):
 
 class Writes(models.Model):
     writesid = models.AutoField(primary_key=True)
-    articleid = models.ForeignKey(Article, models.DO_NOTHING, db_column='articleid', blank=True, null=True)
-    authorid = models.ForeignKey(Author, models.DO_NOTHING, db_column='authorid', blank=True, null=True)
+    articleid = models.ForeignKey(
+        Article,
+        models.DO_NOTHING,
+        db_column='articleid',
+        blank=True,
+        null=True)
+    authorid = models.ForeignKey(
+        Author, models.DO_NOTHING, db_column='authorid', blank=True, null=True)
 
     class Meta:
         managed = False

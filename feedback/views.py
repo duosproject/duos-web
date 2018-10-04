@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.template import Context
-from django.views.generic import ListView
-from feedback.models import Duosauthor
+from django.views.generic import ListView, TemplateView
+
+from feedback.models import Duosauthor, Refs
 
 
 def index(request):
@@ -15,4 +15,10 @@ def index(request):
 class AuthorList(ListView):
     model = Duosauthor
     context_object_name = "authors"
-    template_name = "feedback/authorlist.html"
+    template_name = "feedback/author_list.html"
+
+
+def author_detail(request, author_id):
+    c = {}
+    c['author'] = Duosauthor.objects.filter(authorid=author_id)[0]
+    return render(request, "feedback/author_detail.html", c)

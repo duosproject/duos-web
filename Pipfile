@@ -1,4 +1,5 @@
 [[source]]
+allow_prereleases = true
 url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
@@ -10,9 +11,13 @@ requests = "*"
 python-dotenv = "*"
 django-environ = "*"
 "psycopg2-binary" = "*"
+yapf = "*"
+black = "*"
 
 [dev-packages]
 pylint = "*"
+"flake8" = "*"
+"autopep8" = "*"
 black = "*"
 
 [requires]
