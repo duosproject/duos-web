@@ -19,6 +19,7 @@ pylint = "*"
 "flake8" = "*"
 "autopep8" = "*"
 black = "*"
+pylint-django = "*"
 
 [requires]
 python_version = "3.6"
