@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import json
 from django.shortcuts import render
-from django.views.generic import ListView
 
 from feedback.models import Duosauthor
 
@@ -12,13 +11,15 @@ def index(request):
     return render(request, "feedback/index.html", context)
 
 
-class AuthorList(ListView):
-    model = Duosauthor
-    context_object_name = "authors"
-    template_name = "feedback/author_list.html"
+def author_list(request):
+    context = {}
+    context["authors"] = Duosauthor.objects.all()
+    context["props"] = json.dumps({"hey": "hey"})
+    return render(request, "feedback/author_list.html", context)
 
 
 def author_detail(request, author_id):
     context = {}
     context["author"] = Duosauthor.objects.get(authorid=author_id)
+    context["props"] = json.dumps({"hey": "hey"})
     return render(request, "feedback/author_detail.html", context)

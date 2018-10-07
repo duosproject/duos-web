@@ -71,3 +71,6 @@ venv.bak/
 # editor
 .vscode/
 .idea/
+
+# JS
+**/node_modules/**

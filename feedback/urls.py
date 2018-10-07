@@ -11,7 +11,7 @@ from feedback import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("authors/", views.AuthorList.as_view()),
+    path("authors/", views.author_list, name="author_list"),
     path("authors/<int:author_id>/", views.author_detail, name="author_detail"),
 ]
 

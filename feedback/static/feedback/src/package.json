@@ -1,0 +1,19 @@
+{
+  "name": "duos_research_src",
+  "version": "1.0.0",
+  "description": "Javascript assets for feedback-collection DUOS application",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "bulma": "^0.7.1",
+    "parcel-bundler": "^1.10.2"
+  },
+  "scripts": {
+    "build": "parcel build index.js"
+  },
+  "author": "Ainsley McGrath",
+  "license": "ISC"
+}

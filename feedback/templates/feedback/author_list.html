@@ -2,9 +2,15 @@
 
 {% block content %}
 <h2>Authors</h2>
-<ul>
-    {% for author in authors %}
-    <li>{{author}}{{ author.authorname }} [{{ author.authorid }}] </li>
-    {% endfor %}
-</ul>
+<div id="root"></div>
+<script>
+    {% comment %} 
+    The "safe" filter "Marks a string as not requiring 
+    further HTML escaping prior to output."
+    {% endcomment %}
+    window.props ={{props|safe}};
+    window.root = document.getElementById('root');
+</script>
+{% load static %}
+<script src={% static 'feedback/src/dist/index.js'%}></script>
 {% endblock %}
