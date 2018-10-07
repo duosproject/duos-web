@@ -11,15 +11,13 @@ def index(request):
     return render(request, "feedback/index.html", context)
 
 
-def author_list(request):
+def author_survey(request, author_id):
     context = {}
-    context["authors"] = Duosauthor.objects.all()
-    context["props"] = json.dumps({"hey": "hey"})
-    return render(request, "feedback/author_list.html", context)
 
+    author = Duosauthor.objects.get(authorid=author_id)
+    author_name = author.authorname
 
-def author_detail(request, author_id):
-    context = {}
-    context["author"] = Duosauthor.objects.get(authorid=author_id)
-    context["props"] = json.dumps({"hey": "hey"})
-    return render(request, "feedback/author_detail.html", context)
+    props = {"name": author_name}
+
+    context["props"] = json.dumps(props)
+    return render(request, "feedback/author_survey.html", context)
