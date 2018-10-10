@@ -8,5 +8,5 @@
     window.root = document.getElementById('root');
 </script>
 {% load static %}
-<script src={% static 'feedback/src/dist/index.js'%}></script>
+<script src={% static 'feedback/src/dist/index.js'%}?{% now "U" %}></script>
 {% endblock %}
