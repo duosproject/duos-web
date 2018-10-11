@@ -87,6 +87,21 @@ class Author(models.Model):
         db_table = "author"
 
 
+class AuthorSurveyForm(models.Model):
+    title = models.CharField(max_length=255, blank=True, null=True)
+    articleid = models.IntegerField(blank=True, null=True)
+    publishyear = models.IntegerField(blank=True, null=True)
+    datasetname = models.CharField(max_length=255, blank=True, null=True)
+    refid = models.IntegerField(blank=True, null=True)
+    context = models.TextField(blank=True, null=True)
+    authorid = models.IntegerField(blank=True, null=True)
+    authorname = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        db_table = "author_survey_form"
+
+
 class Divvytrips(models.Model):
     trip_id = models.IntegerField(primary_key=True)
     starttime = models.DateTimeField(blank=True, null=True)
@@ -224,8 +239,8 @@ class Duosvalidation(models.Model):
 
 
 class Duoswrites(models.Model):
-    articleid = models.ForeignKey(Duosarticle, models.DO_NOTHING, db_column="articleid")
-    authorid = models.ForeignKey(Duosauthor, models.DO_NOTHING, db_column="authorid")
+    articleid = models.ManyToManyField(Duosarticle)
+    authorid = models.ManyToManyField(Duosauthor)
 
     class Meta:
         managed = False
@@ -287,4 +302,3 @@ class Writes(models.Model):
     class Meta:
         managed = False
         db_table = "writes"
-
