@@ -32,17 +32,23 @@ class Form extends Component {
   render() {
     return (
       <Fragment>
-        <p>hey, what's in the form?</p>
+        <p>hey, what's in the form for {this.props.articleName}</p>
         <form>
           <fieldset>
             <input
               type="text"
               name="wonderfulInput"
-              placeholder="hey"
+              placeholder={this.props.authorName}
               value={this.state.value}
               onChange={e => this.handleChange(e)}
             />
           </fieldset>
+          <ul>
+            {" "}
+            {this.props.datasets.map(x => (
+              <li>{x}</li>
+            ))}
+          </ul>
         </form>
       </Fragment>
     );

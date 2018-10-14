@@ -9,5 +9,9 @@ from feedback import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("survey/<int:author_id>/", views.author_survey, name="author_survey"),
+    path(
+        "survey/<int:author_id>/<int:article_id>",
+        views.author_survey,
+        name="author_survey",
+    ),
 ]
