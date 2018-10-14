@@ -22,9 +22,9 @@ class Form extends Component {
 
   handleChange(e) {
     e.preventDefault();
+
     const target = e.target;
-    const name = target.name;
-    const value = target.value;
+    const { name, value } = target;
 
     this.setState({ [name]: value });
   }
@@ -38,7 +38,7 @@ class Form extends Component {
             <input
               type="text"
               name="wonderfulInput"
-              placeholder={this.props.name}
+              placeholder="hey"
               value={this.state.value}
               onChange={e => this.handleChange(e)}
             />
