@@ -32,10 +32,10 @@ class Form extends Component {
   render() {
     return (
       <div>
-        <h2>
+        <h2 className="title">
           {this.props.articleName} by {this.props.authorName}
         </h2>
-        <article>
+        <article className="subtitle">
           In regards to the above, please verify whether the following datasets
           were utilized. If clarifiction is needed, please select that option
           and explain in the text box.
@@ -43,17 +43,25 @@ class Form extends Component {
         <form>
           <fieldset>
             {this.props.datasets.map(x => (
-              <Fragment>
-                <label>{x}</label>
-                <input type="button" value={x} />
-                <br />
-              </Fragment>
+              <Field label={x} />
             ))}
           </fieldset>
         </form>
       </div>
     );
   }
+}
+
+function Field(props) {
+  return (
+    <div className="field">
+      <label className="label">{props.label}</label>
+      <input type="button" className="button" value="Yes" selected="true" />
+      <input type="button" className="button" value="No" />
+      <input type="button" className="button" value="Needs clarificaiton" />
+      <input type="button" className="button" value="Unsure" />
+    </div>
+  );
 }
 
 ReactDOM.render(<App {...window.props} />, window.root);
