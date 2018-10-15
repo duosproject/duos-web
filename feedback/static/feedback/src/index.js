@@ -31,26 +31,27 @@ class Form extends Component {
 
   render() {
     return (
-      <Fragment>
-        <p>hey, what's in the form for {this.props.articleName}</p>
+      <div>
+        <h2>
+          {this.props.articleName} by {this.props.authorName}
+        </h2>
+        <article>
+          In regards to the above, please verify whether the following datasets
+          were utilized. If clarifiction is needed, please select that option
+          and explain in the text box.
+        </article>
         <form>
           <fieldset>
-            <input
-              type="text"
-              name="wonderfulInput"
-              placeholder={this.props.authorName}
-              value={this.state.value}
-              onChange={e => this.handleChange(e)}
-            />
-          </fieldset>
-          <ul>
-            {" "}
             {this.props.datasets.map(x => (
-              <li>{x}</li>
+              <Fragment>
+                <label>{x}</label>
+                <input type="button" value={x} />
+                <br />
+              </Fragment>
             ))}
-          </ul>
+          </fieldset>
         </form>
-      </Fragment>
+      </div>
     );
   }
 }

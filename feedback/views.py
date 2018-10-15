@@ -5,7 +5,6 @@ from django.shortcuts import render
 from sqlalchemy import MetaData, create_engine, select, and_
 from sqlalchemy.engine.url import URL
 
-import os
 import environ
 
 env = environ.Env()
@@ -70,7 +69,7 @@ def author_survey(request, author_id, article_id):
     props = {
         "authorName": list(set([x["authorname"] for x in resultset]))[0],
         "articleName": list(set([x["articletitle"] for x in resultset]))[0],
-        "datasets": [x["datasetname"] for x in resultset],
+        "datasets": list(set([x["datasetname"] for x in resultset])),
     }
 
     context = {"props": json.dumps(props)}
