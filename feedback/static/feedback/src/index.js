@@ -4,6 +4,14 @@ import ReactDOM from "react-dom";
 function App(props) {
   return (
     <div>
+      <h2 className="title">
+        {props.articleName} by {props.authorName}
+      </h2>
+      <article className="subtitle">
+        In regards to the above, please verify whether the following datasets
+        were utilized. If clarifiction is needed, please select that option and
+        explain in the text box.
+      </article>
       <Form {...props} />
     </div>
   );
@@ -32,18 +40,10 @@ class Form extends Component {
   render() {
     return (
       <div>
-        <h2 className="title">
-          {this.props.articleName} by {this.props.authorName}
-        </h2>
-        <article className="subtitle">
-          In regards to the above, please verify whether the following datasets
-          were utilized. If clarifiction is needed, please select that option
-          and explain in the text box.
-        </article>
         <form>
           <fieldset>
             {this.props.datasets.map(x => (
-              <Field label={x} />
+              <Field label={x} onChange={this.handleChange} />
             ))}
           </fieldset>
         </form>
@@ -53,13 +53,19 @@ class Form extends Component {
 }
 
 function Field(props) {
+  const answers = ["Yes", "No", "Needs clarificaiton", "Unsure"];
+
   return (
-    <div className="field">
+    <div className="field buttons has-addons">
       <label className="label">{props.label}</label>
-      <input type="button" className="button" value="Yes" selected="true" />
-      <input type="button" className="button" value="No" />
-      <input type="button" className="button" value="Needs clarificaiton" />
-      <input type="button" className="button" value="Unsure" />
+      {answers.map(x => (
+        <input
+          onClick={e => props.onChange(e)}
+          type="button"
+          className="button"
+          value={x}
+        />
+      ))}
     </div>
   );
 }
