@@ -1,29 +1,36 @@
 @charset "utf-8";
-
-// Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700|Volkhov');
 
-// Set your brand colors
+// Ccolors
 $purple: #8A4D76;
 $pink: #FA7C91;
 $brown: #757763;
+$orange: #EC6D05;
 $beige-light: #D0D1CD;
 $beige-lighter: #EFF0EB;
+$off-white: #FFFFEE;
 
 // Update Bulma's global variables
-$family-sans-serif: "Volkhov", serif;
+// $family-sans-serif: "Volkhov", serif;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $purple;
 $link: $pink;
-$widescreen-enabled: false;
+$widescreen-enabled: true;
 $fullhd-enabled: false;
+$link-focus-border: $orange;
 
 // Update some of Bulma's component variables
-$body-background-color: $beige-lighter;
+$body-background-color: $off-white;
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
+$link-focus: $orange;
+
+// direct 
+fieldset {
+    border: none;
+}
 
 // Import only what you need from Bulma
 @import "../src/node_modules/bulma/sass/utilities/_all.sass";
@@ -34,3 +41,4 @@ $input-shadow: none;
 @import "../src/node_modules/bulma/sass/elements/title.sass";
 @import "../src/node_modules/bulma/sass/layout/hero.sass";
 @import "../src/node_modules/bulma/sass/layout/section.sass";
+@import "/../src/node_modules/bulma/sass/components/level.sass"

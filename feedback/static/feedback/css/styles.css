@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700|Volkhov");
+fieldset {
+  border: none; }
+
 @keyframes spinAround {
   from {
     transform: rotate(0deg); }
@@ -156,7 +159,7 @@ th {
   text-align: left; }
 
 html {
-  background-color: #EFF0EB;
+  background-color: #FFFFEE;
   font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -822,8 +825,8 @@ a.has-text-danger:hover, a.has-text-danger:focus {
     border-color: #D0D1CD;
     color: #363636; }
   .button:focus, .button.is-focused {
-    border-color: #3273dc;
-    color: #363636; }
+    border-color: #EC6D05;
+    color: #EC6D05; }
     .button:focus:not(:active), .button.is-focused:not(:active) {
       box-shadow: 0 0 0 0.125em rgba(250, 124, 145, 0.25); }
   .button:active, .button.is-active {

@@ -40,10 +40,10 @@ class Form extends Component {
   render() {
     return (
       <div>
-        <form>
+        <form className="container">
           <fieldset>
             {this.props.datasets.map(x => (
-              <Field label={x} onChange={this.handleChange} />
+              <Field label={x} onChange={this.handleChange} /> // TODO: add key
             ))}
           </fieldset>
         </form>
@@ -53,19 +53,30 @@ class Form extends Component {
 }
 
 function Field(props) {
-  const answers = ["Yes", "No", "Needs clarificaiton", "Unsure"];
+  const ANSWERS = [
+    { display: "Yes", value: "yes" },
+    { display: "No", value: "no" },
+    { display: "Needs clarificaiton", value: "clarify" },
+    { display: "Unsure", value: "unsure" }
+  ];
 
   return (
-    <div className="field buttons has-addons">
-      <label className="label">{props.label}</label>
-      {answers.map(x => (
-        <input
-          onClick={e => props.onChange(e)}
-          type="button"
-          className="button"
-          value={x}
-        />
-      ))}
+    <div className="level">
+      <div className="level-left">
+        <label className="label level-item">{props.label}</label>
+      </div>
+      <div className="level-right buttons has-addons">
+        {ANSWERS.map(x => (
+          <button // TODO: add key, add name
+            onClick={e => props.onChange(e)}
+            className="button"
+            value={x.value}
+            name={x.value}
+          >
+            {x.display}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
