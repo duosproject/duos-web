@@ -43,7 +43,11 @@ class Form extends Component {
         <form className="container">
           <fieldset>
             {this.props.datasets.map(x => (
-              <Field label={x} onChange={this.handleChange} /> // TODO: add key
+              <Field
+                label={x.name}
+                onChange={this.handleChange}
+                contexts={x.contexts}
+              /> // TODO: add key
             ))}
           </fieldset>
         </form>
@@ -66,17 +70,22 @@ function Field(props) {
         <label className="label level-item">{props.label}</label>
       </div>
       <div className="level-right buttons has-addons">
-        {ANSWERS.map(x => (
+        {ANSWERS.map(a => (
           <button // TODO: add key, add name
             onClick={e => props.onChange(e)}
             className="button"
-            value={x.value}
-            name={x.value}
+            value={a.value}
+            name={a.value}
           >
-            {x.display}
+            {a.display}
           </button>
         ))}
       </div>
+      <ul>
+        {props.contexts.map(c => (
+          <li> - {c}</li>
+        ))}
+      </ul>
     </div>
   );
 }

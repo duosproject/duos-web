@@ -2,13 +2,8 @@
 from __future__ import unicode_literals
 import json
 from django.shortcuts import render
-from sqlalchemy import MetaData, create_engine, select, and_
-from sqlalchemy.engine.url import URL
 
-import environ
-
-env = environ.Env()
-env.read_env(".env")
+from feedback.db.query import Query
 
 
 def index(request):
@@ -17,60 +12,32 @@ def index(request):
 
 
 def author_survey(request, author_id, article_id):
+    q = Query()
 
-    # connstr = "postgresql://duos:zark0&ainsl3y@localhost/duos_dev?port=5432"
-    db = {
-        "drivername": "postgres",
-        "username": env("DB_USER"),
-        "password": env("DB_PASSWORD"),
-        "host": env("DB_HOST"),
-        "port": env("DB_PORT"),
-        "database": env("DB_NAME"),
-    }
-    connstr = URL(**db)
+    # every reference to a dataset in this article
+    references = q.survey(author_id, article_id)
 
-    engine = create_engine(connstr)
-    metadata = MetaData()
-    metadata.reflect(bind=engine)  # map db metadata to engine
-    conn = engine.connect()
+    # distinct datasets (dupes b/c of above granularity)
+    dataset_names = list({ref["datasetname"] for ref in references})
 
-    au = metadata.tables["duosauthor"]
-    ar = metadata.tables["article"]
-    re = metadata.tables["refs"]
-    wr = metadata.tables["duoswrites"]
-
-    # Every dataset referenced in a paper for a given author
-    join = (
-        ar.join(re, re.c.articleid == ar.c.articleid)
-        .join(wr, wr.c.articleid == ar.c.articleid)
-        .join(au, au.c.authorid == wr.c.authorid)
-    )
-
-    query = conn.execute(
-        select(
-            [
-                ar.c.articletitle,
-                ar.c.articleid,
-                ar.c.articleyear,
-                re.c.datasetname,
-                re.c.refid,
-                re.c.context,
-                wr.c.authorid,
-                au.c.authorname,
-            ]
-        )
-        .select_from(join)
-        .where(and_(wr.c.authorid == author_id, ar.c.articleid == article_id))
-    )
-
-    resultset = query.fetchall()
-    conn.close()
+    # dataset name, id, and list of contexts
+    datasets = [
+        {
+            "name": name,
+            # "id":  # TODO: need an ID
+            "contexts": [
+                ref["context"] for ref in references if ref["datasetname"] == name
+            ],
+        }
+        for name in dataset_names
+    ]
 
     props = {
-        "authorName": list(set([x["authorname"] for x in resultset]))[0],
-        "articleName": list(set([x["articletitle"] for x in resultset]))[0],
-        "datasets": list(set([x["datasetname"] for x in resultset])),
+        "authorName": q.author_name(author_id),
+        "articleName": q.article_name(article_id),
+        "datasets": datasets,
     }
 
     context = {"props": json.dumps(props)}
+    q.close()
     return render(request, "feedback/author_survey.html", context)
