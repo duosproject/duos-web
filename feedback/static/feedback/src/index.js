@@ -22,19 +22,38 @@ class Form extends Component {
     super(props);
 
     this.state = {
-      wonderfulInput: ""
+      responses: {},
+      paper: "",
+      author: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(e) {
+  componentDidMount() {
+    // MAYBE: fetch pre-existing answers?
+
+    // make the list of datasets into an object with titles as keys
+    this.setState({
+      responses: this.props.datasets
+        .map(({ name }) => ({
+          [name]: { userResponse: "" }
+        }))
+        .reduce((acc, cur) => ({ ...acc, ...cur }), {})
+    });
+  }
+
+  handleChange(e, formElemName) {
     e.preventDefault();
+    const name = formElemName;
+    const value = e.target.value;
 
-    const target = e.target;
-    const { name, value } = target;
-
-    this.setState({ [name]: value });
+    this.setState(state => ({
+      responses: {
+        ...state.responses,
+        [name]: { ...state.responses[name], userResponse: value }
+      }
+    }));
   }
 
   render() {
@@ -45,8 +64,9 @@ class Form extends Component {
             {this.props.datasets.map(x => (
               <Field
                 label={x.name}
-                onChange={this.handleChange}
+                onChange={e => this.handleChange(e, x.name)}
                 contexts={x.contexts}
+                clicked={{ ...this.state.responses[x.name] }}
               /> // TODO: add key
             ))}
           </fieldset>
@@ -72,20 +92,25 @@ function Field(props) {
       <div className="level-right buttons has-addons">
         {ANSWERS.map(a => (
           <button // TODO: add key, add name
-            onClick={e => props.onChange(e)}
+            onClick={e => props.onChange(e, a)}
             className="button"
             value={a.value}
             name={a.value}
+            style={
+              props.clicked.userResponse == a.value
+                ? { backgroundColor: "#EC6D05", color: "#FFFFEE" }
+                : {}
+            }
           >
             {a.display}
           </button>
         ))}
       </div>
-      <ul>
+      {/* <ul>
         {props.contexts.map(c => (
           <li> - {c}</li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 }
