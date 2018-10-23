@@ -37,7 +37,7 @@ class Form extends Component {
     this.setState({
       responses: this.props.datasets
         .map(({ name }) => ({
-          [name]: { userResponse: "" }
+          [name]: { userSelection: "", clarification: "" }
         }))
         .reduce((acc, cur) => ({ ...acc, ...cur }), {})
     });
@@ -47,11 +47,15 @@ class Form extends Component {
     e.preventDefault();
     const name = formElemName;
     const value = e.target.value;
+    const input =
+      e.target.type === "textarea"
+        ? { clarification: value }
+        : { userSelection: value };
 
     this.setState(state => ({
       responses: {
         ...state.responses,
-        [name]: { ...state.responses[name], userResponse: value }
+        [name]: { ...state.responses[name], ...input }
       }
     }));
   }
@@ -61,12 +65,12 @@ class Form extends Component {
       <div>
         <form className="container">
           <fieldset>
-            {this.props.datasets.map(x => (
+            {this.props.datasets.map(({ name, contexts }) => (
               <Field
-                label={x.name}
-                onChange={e => this.handleChange(e, x.name)}
-                contexts={x.contexts}
-                clicked={{ ...this.state.responses[x.name] }}
+                label={name}
+                onChange={e => this.handleChange(e, name)}
+                contexts={contexts}
+                clicked={{ ...this.state.responses[name] }}
               /> // TODO: add key
             ))}
           </fieldset>
@@ -90,27 +94,30 @@ function Field(props) {
         <label className="label level-item">{props.label}</label>
       </div>
       <div className="level-right buttons has-addons">
-        {ANSWERS.map(a => (
+        {ANSWERS.map(({ value, display }) => (
           <button // TODO: add key, add name
-            onClick={e => props.onChange(e, a)}
+            onClick={e => props.onChange(e, value)}
             className="button"
-            value={a.value}
-            name={a.value}
+            value={value}
+            name={value}
             style={
-              props.clicked.userResponse == a.value
+              props.clicked.userSelection == value
                 ? { backgroundColor: "#EC6D05", color: "#FFFFEE" }
                 : {}
             }
           >
-            {a.display}
+            {display}
           </button>
         ))}
       </div>
-      {/* <ul>
-        {props.contexts.map(c => (
-          <li> - {c}</li>
-        ))}
-      </ul> */}
+      {props.clicked.userSelection == "unsure" && (
+        <textarea
+          rows={4}
+          cols={90}
+          placeholder={`Briefly explain your use of ${props.label} here.`}
+          onChange={e => props.onChange(e, props.label)}
+        />
+      )}
     </div>
   );
 }
