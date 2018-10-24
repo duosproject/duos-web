@@ -20,22 +20,10 @@ def author_survey(request, author_id, article_id):
     # distinct datasets (dupes b/c of above granularity)
     dataset_names = list({ref["datasetname"] for ref in references})
 
-    # dataset name, id, and list of contexts
-    datasets = [
-        {
-            "name": name,
-            # "id":  # TODO: need an ID
-            "contexts": [
-                ref["context"] for ref in references if ref["datasetname"] == name
-            ],
-        }
-        for name in dataset_names
-    ]
-
     props = {
         "authorName": q.author_name(author_id),
         "articleName": q.article_name(article_id),
-        "datasets": datasets,
+        "datasets": [{"name": name} for name in dataset_names],  # TODO: need an ID
     }
 
     context = {"props": json.dumps(props)}

@@ -12,17 +12,12 @@
     "babel-core": "^7.0.0-0",
     "babel-preset-env": "^7.0.0-0",
     "babel-preset-react": "^7.0.0-0",
-    "bulma": "^0.7.1",
-    "node-sass": "^4.9.3",
     "parcel-bundler": "^1.10.2"
   },
   "scripts": {
     "build": "parcel build index.js",
-    "watch": "parcel watch index.js",
-    "css-build": "node-sass --omit-source-map-url /Users/ainsleymcgrath/Documents/dev/duos_research/feedback/static/feedback/sass/styles.scss /Users/ainsleymcgrath/Documents/dev/duos_research/feedback/static/feedback/css/styles.css",
-    "css-watch": "npm run css-build -- --watch",
-    "css-start": "npm run css-watch"
+    "watch": "parcel watch index.js"
   },
   "author": "Ainsley McGrath",
-  "license": "ISC"
+  "license": "MIT"
 }
