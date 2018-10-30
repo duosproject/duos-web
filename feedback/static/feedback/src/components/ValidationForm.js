@@ -12,9 +12,9 @@ export default class ValidationForm extends Component {
       articleName,
       authorId,
       articleId,
-      responses: datasets
+      userResponses: datasets
         .map(({ name }) => ({
-          [name]: { userSelection: "", clarification: "" }
+          [name]: { selection: "", clarification: "" }
         }))
         .reduce((acc, cur) => ({ ...acc, ...cur }), {}),
       progress: 0
@@ -31,16 +31,16 @@ export default class ValidationForm extends Component {
     const input =
       e.target.type === "textarea"
         ? { clarification: value }
-        : { userSelection: value };
+        : { selection: value };
 
     this.setState(state => ({
-      responses: {
-        ...state.responses, // hold onto responses to other questions
-        [name]: { ...state.responses[name], ...input }
+      userResponses: {
+        ...state.userResponses, // hold onto responses to other questions
+        [name]: { ...state.userResponses[name], ...input }
       },
       progress:
-        Object.keys(state.responses).filter(
-          key => state.responses[key].userSelection != "" && key != name
+        Object.keys(state.userResponses).filter(
+          key => state.userResponses[key].selection != "" && key != name
         ).length + 1
     }));
   }
@@ -49,16 +49,17 @@ export default class ValidationForm extends Component {
     return (
       <form className="column box is-full">
         <progress
-          class="progress is-info"
+          className="progress is-info"
           value={this.state.progress} // count of answers so far
-          max={Object.keys(this.state.responses).length} // total number of questions
+          max={Object.keys(this.state.userResponses).length} // total number of questions
         />
         {this.props.datasets.map(({ name }) => (
           <ValidationField
             label={name}
             key={name} // TODO: better key
+            datasetId={name}
             onChange={e => this.handleChange(e, name)}
-            clicked={this.state.responses[name].userSelection}
+            userResponse={this.state.userResponses[name]}
             {...this.props}
           />
         ))}

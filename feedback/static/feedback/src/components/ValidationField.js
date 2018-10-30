@@ -6,8 +6,21 @@ export default class ValidationField extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.clicked.userSelection !== this.props.clicked.userSelection) {
-      fetch(window.location.href, { method: "POST" });
+    const { userResponse, datasetId, articleId, authorId } = this.props;
+    const { selection, clarification } = userResponse;
+
+    if (prevProps.userResponse.selection !== selection) {
+      fetch(window.location.href, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify({
+          datasetId,
+          selection,
+          clarification,
+          articleId,
+          authorId
+        })
+      });
     }
   }
 
@@ -24,12 +37,15 @@ export default class ValidationField extends Component {
         <div className="column">
           <label className="label">{this.props.label}</label>
         </div>
+        {/* template string cuz bulma is weird */}
         <div className={`column buttons has-addons control`}>
           {ANSWERS.map(({ value, display }) => (
             <button // TODO: add key, add name
               onClick={e => this.props.onChange(e, value)}
               className={`button ${
-                this.props.clicked == value ? "is-selected is-primary" : ""
+                this.props.userResponse.selection == value
+                  ? "is-selected is-primary"
+                  : ""
               }`}
               value={value}
               name={value}
@@ -39,7 +55,7 @@ export default class ValidationField extends Component {
             </button>
           ))}
         </div>
-        {this.props.clicked == "clarify" && (
+        {this.props.userResponse.selection == "clarify" && (
           <div className="control column is-full">
             <textarea
               rows={4}

@@ -19,6 +19,12 @@ def author_survey(request, author_id, article_id):
 
     # handle form submission
     if request.method == "POST":
+        data = json.loads(request.body)
+
+        from pprint import pprint
+
+        pprint(data)
+
         return HttpResponse("nice")
 
     q = Query()
@@ -39,4 +45,3 @@ def author_survey(request, author_id, article_id):
     context = {"props": json.dumps(props)}
     q.close()
     return render(request, "feedback/author_survey.html", context)
-
