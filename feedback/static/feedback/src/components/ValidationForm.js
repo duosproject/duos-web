@@ -16,7 +16,8 @@ export default class ValidationForm extends Component {
         .map(({ name }) => ({
           [name]: { userSelection: "", clarification: "" }
         }))
-        .reduce((acc, cur) => ({ ...acc, ...cur }), {})
+        .reduce((acc, cur) => ({ ...acc, ...cur }), {}),
+      progress: 0
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -36,26 +37,32 @@ export default class ValidationForm extends Component {
       responses: {
         ...state.responses, // hold onto responses to other questions
         [name]: { ...state.responses[name], ...input }
-      }
+      },
+      progress:
+        Object.keys(state.responses).filter(
+          key => state.responses[key].userSelection != "" && key != name
+        ).length + 1
     }));
   }
 
   render() {
     return (
-      <div>
-        <form className="container">
-          <fieldset>
-            {this.props.datasets.map(({ name }) => (
-              <ValidationField
-                label={name}
-                key={name} // TODO: better key
-                onChange={e => this.handleChange(e, name)}
-                clicked={{ ...this.state.responses[name] }}
-              />
-            ))}
-          </fieldset>
-        </form>
-      </div>
+      <form className="column box is-full">
+        <progress
+          class="progress is-info"
+          value={this.state.progress} // count of answers so far
+          max={Object.keys(this.state.responses).length} // total number of questions
+        />
+        {this.props.datasets.map(({ name }) => (
+          <ValidationField
+            label={name}
+            key={name} // TODO: better key
+            onChange={e => this.handleChange(e, name)}
+            clicked={this.state.responses[name].userSelection}
+            {...this.props}
+          />
+        ))}
+      </form>
     );
   }
 }

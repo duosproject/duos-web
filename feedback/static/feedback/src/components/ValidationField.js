@@ -15,45 +15,42 @@ export default class ValidationField extends Component {
     const ANSWERS = [
       { display: "Yes", value: "yes" },
       { display: "No", value: "no" },
-      { display: "Needs clarificaiton", value: "clarify" },
+      { display: "Let me clarify", value: "clarify" },
       { display: "Unsure", value: "unsure" }
     ];
 
-    const selected = {
-      backgroundColor: "#EC6D05",
-      color: "#FFFFEE"
-    };
-
     return (
-      <div className="level">
-        <div className="level-left">
-          <label className="label level-item">{this.props.label}</label>
+      <div className="field columns is-multiline is-centered">
+        <div className="column">
+          <label className="label">{this.props.label}</label>
         </div>
-        <div className="level-right buttons has-addons">
+        <div className={`column buttons has-addons control`}>
           {ANSWERS.map(({ value, display }) => (
             <button // TODO: add key, add name
               onClick={e => this.props.onChange(e, value)}
-              className="button"
+              className={`button ${
+                this.props.clicked == value ? "is-selected is-primary" : ""
+              }`}
               value={value}
               name={value}
               key={this.props.label + value} // TODO: better key
-              style={
-                this.props.clicked.userSelection == value ? { ...selected } : {}
-              }
             >
               {display}
             </button>
           ))}
         </div>
-        {this.props.clicked.userSelection == "clarify" && (
-          <textarea
-            rows={4}
-            cols={90}
-            placeholder={`Briefly explain your use of ${
-              this.props.label
-            } here.`}
-            onChange={e => this.props.onChange(e, this.props.label)}
-          />
+        {this.props.clicked == "clarify" && (
+          <div className="control column is-full">
+            <textarea
+              rows={4}
+              cols={90}
+              placeholder={`Briefly explain your use of ${
+                this.props.label
+              } here.`}
+              onChange={e => this.props.onChange(e, this.props.label)}
+              className="textarea "
+            />
+          </div>
         )}
       </div>
     );

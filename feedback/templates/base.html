@@ -1,17 +1,19 @@
 <head>
     {% load static %}
-    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'feedback/sass/styles.scss' %}?{% now " U" %}"> {% endcomment %}
-    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'feedback/css/styles.css' %}?{% now " U" %}">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Volkhov" rel="stylesheet">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
 <body>
     <section class="section">
-        <img src="{% static 'feedback/assets/logo.png' %}">
-        <div class="container">
-            {% block content %}
-            {% endblock %}
+        <div class="level">
+            <div class="level-item">
+                <img id="logo" src="{% static 'feedback/assets/logo.png' %} ">
+            </div>
+        </div>
+        {% block content %}
+        {% endblock %}
         </div>
     </section>
 </body>

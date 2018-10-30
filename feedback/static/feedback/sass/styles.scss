@@ -1,3 +1,13 @@
+@charset "utf-8";
 @import "../src/node_modules/bulma/bulma.sass";
 
 $primary: red;
+$danger: $blue;
+
+img#logo { 
+    height:150px;
+}
+
+form {
+    border: 0px ;
+}
