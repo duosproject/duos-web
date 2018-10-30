@@ -77,5 +77,10 @@ class Query:
             .where(article.c.articleid == article_id)
         ).fetchone()[0]
 
+    def insert_validation(self, data):
+        from pprint import pprint
+
+        pprint(data)
+
     def close(self):
         self.conn.close()

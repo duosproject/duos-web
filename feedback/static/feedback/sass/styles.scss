@@ -1,11 +1,14 @@
 @charset "utf-8";
 @import "../src/node_modules/bulma/bulma.sass";
 
-$primary: red;
-$danger: $blue;
+$orange: #EC6D09;
+$success: black;
 
+$primary: $orange;
+$danger: $blue;
+$body-background-color: black;
 img#logo { 
-    height:150px;
+    height: 50px;
 }
 
 form {

@@ -17,17 +17,15 @@ def index(request):
 @require_http_methods(["GET", "POST"])
 def author_survey(request, author_id, article_id):
 
+    q = Query()
     # handle form submission
     if request.method == "POST":
         data = json.loads(request.body)
-
-        from pprint import pprint
-
-        pprint(data)
+        q.insert_validation(data)
+        q.close()
 
         return HttpResponse("nice")
 
-    q = Query()
     # every reference to a dataset in this article
     references = q.survey(author_id, article_id)
 
@@ -43,5 +41,6 @@ def author_survey(request, author_id, article_id):
     }
 
     context = {"props": json.dumps(props)}
+
     q.close()
     return render(request, "feedback/author_survey.html", context)
