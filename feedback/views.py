@@ -15,22 +15,30 @@ def index(request):
 
 
 @require_http_methods(["GET", "POST"])
-def author_survey(request, author_id, article_id):
+def author_survey(request, writes_hash):
 
     q = Query()
+
+    # every reference to a dataset in this article
+    references = q.survey(writes_hash)
+    from pprint import pprint
+
+    pprint(references)
+
     # handle form submission
     if request.method == "POST":
-        data = json.loads(request.body)
-        q.insert_validation(data)
+        validation_data = json.loads(request.body)
+
+        q.insert_validation(validation_data)
         q.close()
 
         return HttpResponse("nice")
 
-    # every reference to a dataset in this article
-    references = q.survey(author_id, article_id)
-
     # distinct datasets (dupes b/c of above granularity)
-    dataset_names = list({ref["datasetname"] for ref in references})
+    dataset_names = list({ref["dataset_name"] for ref in references})
+
+    author_id = [ref["author_id"] for ref in references][0]
+    article_id = [ref["article_id"] for ref in references][0]
 
     props = {
         "authorName": q.author_name(author_id),
