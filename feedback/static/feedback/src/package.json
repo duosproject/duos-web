@@ -20,8 +20,8 @@
   "scripts": {
     "js-build": "parcel build index.js",
     "js-watch": "parcel watch index.js",
-    "css-build": "node-sass \"../sass\" --recursive --output \"../css\" --source-map false",
-    "css-watch": "node-sass --watch \"../sass\" --recursive --output \"../css\" --source-map false",
+    "css-build": "node-sass \"../sass\" --recursive --output \"../css\"",
+    "css-watch": "node-sass --watch \"../sass\" --recursive --output \"../css\"",
     "start": "concurrently --names \"npm:css-watch\", \"npm:js-watch\"",
     "build": "concurrently --names \"npm:css-build\", \"npm:js-build\""
   },

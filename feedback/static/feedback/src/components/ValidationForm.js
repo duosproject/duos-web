@@ -23,6 +23,12 @@ export default class ValidationForm extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidUpdate() {
+    if (this.state.progress === Object.keys(this.state.userResponses).length) {
+      this.props.handleComplete(true);
+    }
+  }
+
   handleChange(e, formElemName) {
     e.preventDefault();
 

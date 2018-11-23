@@ -25,57 +25,79 @@ class Query:
 
         self.conn = engine.connect()
 
-    def survey(self, author_id, article_id):
+    def survey(self, writes_hash):
 
         # pretend they're sql aliases
         ar = self.metadata.tables["article"]
-        re = self.metadata.tables["refs"]
-        wr = self.metadata.tables["duoswrites"]
-        au = self.metadata.tables["duosauthor"]
+        re = self.metadata.tables["reference"]
+        wr = self.metadata.tables["writes"]
+        au = self.metadata.tables["author"]
+        da = self.metadata.tables["dataset"]
 
         # Every dataset referenced in a paper for a given author
         join = (
-            ar.join(re, re.c.articleid == ar.c.articleid)
-            .join(wr, wr.c.articleid == ar.c.articleid)
-            .join(au, au.c.authorid == wr.c.authorid)
+            ar.join(re, re.c.article_id == ar.c.article_id)
+            .join(wr, wr.c.article_id == ar.c.article_id)
+            .join(au, au.c.author_id == wr.c.author_id)
+            .join(da, da.c.dataset_id == re.c.dataset_id)
         )
 
         result = self.conn.execute(
             select(
                 [
-                    ar.c.articletitle,
-                    ar.c.articleid,
-                    ar.c.articleyear,
-                    re.c.datasetname,
-                    re.c.refid,
-                    re.c.context,
-                    wr.c.authorid,
-                    au.c.authorname,
+                    ar.c.article_title,
+                    ar.c.article_id,
+                    re.c.dataset_id,
+                    re.c.ref_id,
+                    wr.c.writes_hash,
+                    wr.c.author_id,
+                    au.c.author_name,
+                    da.c.dataset_name,
                 ]
             )
             .select_from(join)
-            .where(and_(wr.c.authorid == author_id, ar.c.articleid == article_id))
+            .where(wr.c.writes_hash == writes_hash)
         )
 
         return result.fetchall()
 
     def author_name(self, author_id):
-        author = self.metadata.tables["duosauthor"]
+        author = self.metadata.tables["author"]
 
         return self.conn.execute(
-            select([author.c.authorname])
+            select([author.c.author_name])
             .select_from(author)
-            .where(author.c.authorid == author_id)
+            .where(author.c.author_id == author_id)
         ).fetchone()[0]
 
     def article_name(self, article_id):
         article = self.metadata.tables["article"]
 
         return self.conn.execute(
-            select([article.c.articletitle])
+            select([article.c.article_title])
             .select_from(article)
-            .where(article.c.articleid == article_id)
+            .where(article.c.article_id == article_id)
         ).fetchone()[0]
+
+    def insert_validation(self, validation_data):
+        from random import randint
+        from datetime import datetime
+
+        print(validation_data)
+
+        # ins = (
+        #     self.metadata.tables["validation"]
+        #     .insert()
+        #     .values(
+        #         validationid=randint(0, 100),
+        #         refid=refid,
+        #         validationchoice=selection,
+        #         validationcomment=clarification,
+        #         updatedat=datetime.now(),
+        #     )
+        # )
+        pass
+        # return self.conn.execute(ins)
 
     def close(self):
         self.conn.close()
