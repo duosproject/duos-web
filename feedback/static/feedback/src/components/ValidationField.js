@@ -6,7 +6,7 @@ export default class ValidationField extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { userResponse, datasetId, articleId, authorId } = this.props;
+    const { userResponse, datasetId, articleId, authorId, refId } = this.props;
     const { selection, clarification } = userResponse;
 
     if (prevProps.userResponse.selection !== selection) {
@@ -18,6 +18,7 @@ export default class ValidationField extends Component {
           selection,
           clarification,
           articleId,
+          refId,
           authorId
         })
       });

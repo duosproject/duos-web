@@ -1,6 +1,8 @@
+from datetime import datetime
+
 import environ
+from sqlalchemy import MetaData, create_engine, select
 from sqlalchemy.engine.url import URL
-from sqlalchemy import MetaData, create_engine, select, and_
 
 
 class Query:
@@ -80,24 +82,19 @@ class Query:
         ).fetchone()[0]
 
     def insert_validation(self, validation_data):
-        from random import randint
-        from datetime import datetime
-
-        print(validation_data)
-
-        # ins = (
-        #     self.metadata.tables["validation"]
-        #     .insert()
-        #     .values(
-        #         validationid=randint(0, 100),
-        #         refid=refid,
-        #         validationchoice=selection,
-        #         validationcomment=clarification,
-        #         updatedat=datetime.now(),
-        #     )
-        # )
-        pass
-        # return self.conn.execute(ins)
+        self.conn.execute(
+            (
+                self.metadata.tables["validates"]
+                .insert()
+                .values(
+                    ref_id=validation_data["refId"],
+                    author_id=validation_data["authorId"],
+                    response=validation_data["selection"],
+                    clarification=validation_data["clarification"],
+                    insert_date=datetime.now(),
+                )
+            )
+        )
 
     def close(self):
         self.conn.close()

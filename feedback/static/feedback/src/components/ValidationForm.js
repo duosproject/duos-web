@@ -4,7 +4,14 @@ import ValidationField from "./ValidationField";
 export default class ValidationForm extends Component {
   constructor(props) {
     super(props);
-    const { authorName, articleName, authorId, articleId, datasets } = props;
+    const {
+      authorName,
+      articleName,
+      authorId,
+      articleId,
+      datasets,
+      refId
+    } = props;
 
     // state mirrors props because they come from the server
     this.state = {
@@ -12,6 +19,7 @@ export default class ValidationForm extends Component {
       articleName,
       authorId,
       articleId,
+      refId,
       userResponses: datasets
         .map(({ name }) => ({
           [name]: { selection: "", clarification: "" }

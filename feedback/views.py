@@ -21,9 +21,6 @@ def author_survey(request, writes_hash):
 
     # every reference to a dataset in this article
     references = q.survey(writes_hash)
-    from pprint import pprint
-
-    pprint(references)
 
     # handle form submission
     if request.method == "POST":
@@ -34,18 +31,19 @@ def author_survey(request, writes_hash):
 
         return HttpResponse("nice")
 
-    # distinct datasets (dupes b/c of above granularity)
-    dataset_names = list({ref["dataset_name"] for ref in references})
-
-    author_id = [ref["author_id"] for ref in references][0]
-    article_id = [ref["article_id"] for ref in references][0]
+    author_id, *_ = [ref["author_id"] for ref in references]
+    article_id, *_ = [ref["article_id"] for ref in references]
+    ref_id, *_ = [ref["ref_id"] for ref in references]
 
     props = {
         "authorName": q.author_name(author_id),
         "authorId": author_id,
         "articleName": q.article_name(article_id),
         "articleId": article_id,
-        "datasets": [{"name": name} for name in dataset_names],  # TODO: need an ID
+        "refId": ref_id,
+        "datasets": [
+            {"name": ref["dataset_name"], "id": ref["dataset_id"]} for ref in references
+        ],
     }
 
     context = {"props": json.dumps(props)}
