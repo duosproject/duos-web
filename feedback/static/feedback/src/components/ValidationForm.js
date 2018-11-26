@@ -4,23 +4,10 @@ import ValidationField from "./ValidationField";
 export default class ValidationForm extends Component {
   constructor(props) {
     super(props);
-    const {
-      authorName,
-      articleName,
-      authorId,
-      articleId,
-      datasets,
-      refId
-    } = props;
 
     // state mirrors props because they come from the server
     this.state = {
-      authorName,
-      articleName,
-      authorId,
-      articleId,
-      refId,
-      userResponses: datasets
+      userResponses: this.props.datasets
         .map(({ name }) => ({
           [name]: { selection: "", clarification: "" }
         }))
@@ -37,10 +24,10 @@ export default class ValidationForm extends Component {
     }
   }
 
-  handleChange(e, formElemName) {
+  handleChange(e, formElement) {
+    console.log(formElement);
     e.preventDefault();
 
-    const name = formElemName;
     const value = e.target.value;
     const input =
       e.target.type === "textarea"
@@ -50,11 +37,11 @@ export default class ValidationForm extends Component {
     this.setState(state => ({
       userResponses: {
         ...state.userResponses, // hold onto responses to other questions
-        [name]: { ...state.userResponses[name], ...input }
+        [formElement]: { ...state.userResponses[formElement], ...input }
       },
       progress:
         Object.keys(state.userResponses).filter(
-          key => state.userResponses[key].selection != "" && key != name
+          key => state.userResponses[key].selection != "" && key != formElement
         ).length + 1
     }));
   }
@@ -67,11 +54,11 @@ export default class ValidationForm extends Component {
           value={this.state.progress} // count of answers so far
           max={Object.keys(this.state.userResponses).length} // total number of questions
         />
-        {this.props.datasets.map(({ name }) => (
+        {this.props.datasets.map(({ name, id }) => (
           <ValidationField
             label={name}
-            key={name} // TODO: better key
-            datasetId={name}
+            key={id} // TODO: better key
+            datasetId={id}
             onChange={e => this.handleChange(e, name)}
             userResponse={this.state.userResponses[name]}
             {...this.props}

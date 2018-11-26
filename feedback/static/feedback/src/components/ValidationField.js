@@ -9,7 +9,10 @@ export default class ValidationField extends Component {
     const { userResponse, datasetId, articleId, authorId, refId } = this.props;
     const { selection, clarification } = userResponse;
 
-    if (prevProps.userResponse.selection !== selection) {
+    if (
+      prevProps.userResponse.selection !== selection ||
+      clarification !== prevProps.userResponse.clarification
+    ) {
       fetch(window.location.href, {
         method: "POST",
         headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -42,7 +45,7 @@ export default class ValidationField extends Component {
         <div className={`column buttons has-addons control`}>
           {ANSWERS.map(({ value, display }) => (
             <button // TODO: add key, add name
-              onClick={e => this.props.onChange(e, value)}
+              onClick={e => this.props.onChange(e)}
               className={`button ${
                 this.props.userResponse.selection == value
                   ? "is-selected is-primary"
@@ -50,7 +53,7 @@ export default class ValidationField extends Component {
               }`}
               value={value}
               name={value}
-              key={this.props.label + value} // TODO: better key
+              key={[this.props.datasetId + value]} // TODO: better key
             >
               {display}
             </button>
