@@ -14,18 +14,19 @@ export default class App extends Component {
   }
 
   render() {
-    const firstName = this.props.authorName.split(" ")[0];
+    const [firstName] = this.props.authorName.split(" ");
 
-    return this.state.formComplete ? (
-      <div className="notification is-success">
-        Thank you for taking the time to complete this survey, {firstName}. Your
-        contribution will make a great impact in our research.
-      </div>
-    ) : (
+    return (
       <div id="app" className="columns is-multiline content">
         <h2 className="title column is-full">
           {props.articleName} by {props.authorName}
         </h2>
+        {this.state.formComplete && (
+          <div className="notification is-success">
+            Thank you for taking the time to complete this survey, {firstName}.
+            Your contribution will make a great impact in our research.
+          </div>
+        )}
         <article className="subtitle column is-full">
           In regards to the above, please verify whether the following datasets
           were utilized. If clarifiction is needed, please select that option
