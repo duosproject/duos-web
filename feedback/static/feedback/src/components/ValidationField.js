@@ -3,15 +3,18 @@ import React, { Component } from "react";
 export default class ValidationField extends Component {
   constructor(props) {
     super(props);
+
+    this.USER_DONE_TYPING_TIMEOUT = 2000;
+    this.handleUserIsTyping = this.handleUserIsTyping.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { userResponse, datasetId, articleId, authorId, refId } = this.props;
     const { selection, clarification } = userResponse;
 
     if (
       prevProps.userResponse.selection !== selection ||
-      clarification !== prevProps.userResponse.clarification
+      prevProps.userResponse.clarification !== clarification
     ) {
       fetch(window.location.href, {
         method: "POST",
@@ -26,6 +29,14 @@ export default class ValidationField extends Component {
         })
       });
     }
+  }
+
+  handleUserIsTyping(e, callback) {
+    e.persist();
+    setTimeout(
+      () => callback(e, this.props.label),
+      this.USER_DONE_TYPING_TIMEOUT
+    );
   }
 
   render() {
@@ -44,7 +55,7 @@ export default class ValidationField extends Component {
         {/* template string cuz bulma is weird */}
         <div className={`column buttons has-addons control`}>
           {ANSWERS.map(({ value, display }) => (
-            <button // TODO: add key, add name
+            <button
               onClick={e => this.props.onChange(e)}
               className={`button ${
                 this.props.userResponse.selection == value
@@ -53,7 +64,7 @@ export default class ValidationField extends Component {
               }`}
               value={value}
               name={value}
-              key={[this.props.datasetId + value]} // TODO: better key
+              key={this.props.datasetId + value}
             >
               {display}
             </button>
@@ -67,8 +78,8 @@ export default class ValidationField extends Component {
               placeholder={`Briefly explain your use of ${
                 this.props.label
               } here.`}
-              onChange={e => this.props.onChange(e, this.props.label)}
-              className="textarea "
+              onChange={e => this.handleUserIsTyping(e, this.props.onChange)}
+              className="textarea"
             />
           </div>
         )}

@@ -5,7 +5,8 @@ export default class ValidationForm extends Component {
   constructor(props) {
     super(props);
 
-    // state mirrors props because they come from the server
+    // setting state from props
+    // because question labels were born in the server
     this.state = {
       userResponses: this.props.datasets
         .map(({ name }) => ({
@@ -25,7 +26,6 @@ export default class ValidationForm extends Component {
   }
 
   handleChange(e, formElement) {
-    console.log(formElement);
     e.preventDefault();
 
     const value = e.target.value;
@@ -57,7 +57,7 @@ export default class ValidationForm extends Component {
         {this.props.datasets.map(({ name, id }) => (
           <ValidationField
             label={name}
-            key={id} // TODO: better key
+            key={id}
             datasetId={id}
             onChange={e => this.handleChange(e, name)}
             userResponse={this.state.userResponses[name]}
