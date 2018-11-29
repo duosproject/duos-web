@@ -3,13 +3,19 @@ import React, { Component } from "react";
 export default class ValidationField extends Component {
   constructor(props) {
     super(props);
+
+    this.USER_DONE_TYPING_TIMEOUT = 3500;
+    this.handleUserIsTyping = this.handleUserIsTyping.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const { userResponse, datasetId, articleId, authorId } = this.props;
+  componentDidUpdate(prevProps, prevState) {
+    const { userResponse, datasetId, articleId, authorId, refId } = this.props;
     const { selection, clarification } = userResponse;
 
-    if (prevProps.userResponse.selection !== selection) {
+    if (
+      prevProps.userResponse.selection !== selection ||
+      prevProps.userResponse.clarification !== clarification
+    ) {
       fetch(window.location.href, {
         method: "POST",
         headers: { "Content-Type": "application/json; charset=utf-8" },
@@ -18,10 +24,19 @@ export default class ValidationField extends Component {
           selection,
           clarification,
           articleId,
+          refId,
           authorId
         })
       });
     }
+  }
+
+  handleUserIsTyping(e, callback) {
+    e.persist();
+    setTimeout(
+      () => callback(e, this.props.label),
+      this.USER_DONE_TYPING_TIMEOUT
+    );
   }
 
   render() {
@@ -40,8 +55,8 @@ export default class ValidationField extends Component {
         {/* template string cuz bulma is weird */}
         <div className={`column buttons has-addons control`}>
           {ANSWERS.map(({ value, display }) => (
-            <button // TODO: add key, add name
-              onClick={e => this.props.onChange(e, value)}
+            <button
+              onClick={e => this.props.onChange(e)}
               className={`button ${
                 this.props.userResponse.selection == value
                   ? "is-selected is-primary"
@@ -49,7 +64,7 @@ export default class ValidationField extends Component {
               }`}
               value={value}
               name={value}
-              key={this.props.label + value} // TODO: better key
+              key={this.props.datasetId + value}
             >
               {display}
             </button>
@@ -63,8 +78,8 @@ export default class ValidationField extends Component {
               placeholder={`Briefly explain your use of ${
                 this.props.label
               } here.`}
-              onChange={e => this.props.onChange(e, this.props.label)}
-              className="textarea "
+              onChange={e => this.handleUserIsTyping(e, this.props.onChange)}
+              className="textarea"
             />
           </div>
         )}

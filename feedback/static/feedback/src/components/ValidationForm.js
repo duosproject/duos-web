@@ -4,15 +4,11 @@ import ValidationField from "./ValidationField";
 export default class ValidationForm extends Component {
   constructor(props) {
     super(props);
-    const { authorName, articleName, authorId, articleId, datasets } = props;
 
-    // state mirrors props because they come from the server
+    // setting state from props
+    // because question labels were born in the server
     this.state = {
-      authorName,
-      articleName,
-      authorId,
-      articleId,
-      userResponses: datasets
+      userResponses: this.props.datasets
         .map(({ name }) => ({
           [name]: { selection: "", clarification: "" }
         }))
@@ -23,10 +19,9 @@ export default class ValidationForm extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(e, formElemName) {
+  handleChange(e, formElement) {
     e.preventDefault();
 
-    const name = formElemName;
     const value = e.target.value;
     const input =
       e.target.type === "textarea"
@@ -36,28 +31,38 @@ export default class ValidationForm extends Component {
     this.setState(state => ({
       userResponses: {
         ...state.userResponses, // hold onto responses to other questions
-        [name]: { ...state.userResponses[name], ...input }
+        [formElement]: { ...state.userResponses[formElement], ...input }
       },
       progress:
         Object.keys(state.userResponses).filter(
-          key => state.userResponses[key].selection != "" && key != name
+          key => state.userResponses[key].selection != "" && key != formElement
         ).length + 1
     }));
   }
 
   render() {
+    const [firstName] = this.props.authorName.split(" ");
     return (
-      <form className="column box is-full">
-        <progress
-          className="progress is-info"
-          value={this.state.progress} // count of answers so far
-          max={Object.keys(this.state.userResponses).length} // total number of questions
-        />
-        {this.props.datasets.map(({ name }) => (
+      <form className="column box is-full has-background-clear">
+        {this.state.progress ===
+        Object.keys(this.state.userResponses).length ? (
+          <div className="notification is-success">
+            Thank you for taking the time to complete this survey, {firstName}.
+            <br />
+            Your contribution will make a great impact in our research.
+          </div>
+        ) : (
+          <progress
+            className="progress is-info"
+            value={this.state.progress} // count of answers so far
+            max={Object.keys(this.state.userResponses).length} // total number of questions
+          />
+        )}
+        {this.props.datasets.map(({ name, id }) => (
           <ValidationField
             label={name}
-            key={name} // TODO: better key
-            datasetId={name}
+            key={id}
+            datasetId={id}
             onChange={e => this.handleChange(e, name)}
             userResponse={this.state.userResponses[name]}
             {...this.props}

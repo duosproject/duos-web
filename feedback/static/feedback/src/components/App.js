@@ -5,12 +5,12 @@ export default function App(props) {
   return (
     <div id="app" className="columns is-multiline content">
       <h2 className="title column is-full">
-        {props.articleName} by {props.authorName}
+        <span>{props.articleName}</span> <br />
+        <span className="is-size-5">by {props.authorName}</span>
       </h2>
       <article className="subtitle column is-full">
-        In regards to the above, please verify whether the following datasets
-        were utilized. If clarifiction is needed, please select that option and
-        explain in the text box.
+        Were the following datasets referenced in the paper mentioned above?
+        Your answers are submitted automatically.
       </article>
       <ValidationForm {...props} />
     </div>
