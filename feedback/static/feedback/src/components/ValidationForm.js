@@ -19,15 +19,6 @@ export default class ValidationForm extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidUpdate(_, prevState) {
-    if (
-      this.state.progress === Object.keys(this.state.userResponses).length &&
-      prevState.progress != this.state.progress
-    ) {
-      this.props.handleComplete(true);
-    }
-  }
-
   handleChange(e, formElement) {
     e.preventDefault();
 
@@ -50,13 +41,23 @@ export default class ValidationForm extends Component {
   }
 
   render() {
+    const [firstName] = this.props.authorName.split(" ");
     return (
-      <form className="column box is-full">
-        <progress
-          className="progress is-info"
-          value={this.state.progress} // count of answers so far
-          max={Object.keys(this.state.userResponses).length} // total number of questions
-        />
+      <form className="column box is-full has-background-clear">
+        {this.state.progress ===
+        Object.keys(this.state.userResponses).length ? (
+          <div className="notification is-success">
+            Thank you for taking the time to complete this survey, {firstName}.
+            <br />
+            Your contribution will make a great impact in our research.
+          </div>
+        ) : (
+          <progress
+            className="progress is-info"
+            value={this.state.progress} // count of answers so far
+            max={Object.keys(this.state.userResponses).length} // total number of questions
+          />
+        )}
         {this.props.datasets.map(({ name, id }) => (
           <ValidationField
             label={name}

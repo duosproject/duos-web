@@ -1,39 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 import ValidationForm from "./ValidationForm";
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { formComplete: false };
-
-    this.handleComplete = this.handleComplete.bind(this);
-  }
-
-  handleComplete(flag) {
-    this.setState({ formComplete: flag });
-  }
-
-  render() {
-    const [firstName] = this.props.authorName.split(" ");
-
-    return (
-      <div id="app" className="columns is-multiline content">
-        <h2 className="title column is-full">
-          {props.articleName} by {props.authorName}
-        </h2>
-        {this.state.formComplete && (
-          <div className="notification is-success">
-            Thank you for taking the time to complete this survey, {firstName}.
-            Your contribution will make a great impact in our research.
-          </div>
-        )}
-        <article className="subtitle column is-full">
-          In regards to the above, please verify whether the following datasets
-          were utilized. If clarifiction is needed, please select that option
-          and explain in the text box.
-        </article>
-        <ValidationForm {...this.props} handleComplete={this.handleComplete} />
-      </div>
-    );
-  }
+export default function App(props) {
+  return (
+    <div id="app" className="columns is-multiline content">
+      <h2 className="title column is-full">
+        <span>{props.articleName}</span> <br />
+        <span className="is-size-5">by {props.authorName}</span>
+      </h2>
+      <article className="subtitle column is-full">
+        Were the following datasets referenced in the paper mentioned above?
+        Your answers are submitted automatically.
+      </article>
+      <ValidationForm {...props} />
+    </div>
+  );
 }

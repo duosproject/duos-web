@@ -4,7 +4,7 @@ export default class ValidationField extends Component {
   constructor(props) {
     super(props);
 
-    this.USER_DONE_TYPING_TIMEOUT = 2000;
+    this.USER_DONE_TYPING_TIMEOUT = 3500;
     this.handleUserIsTyping = this.handleUserIsTyping.bind(this);
   }
 

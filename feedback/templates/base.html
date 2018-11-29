@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 <head>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'feedback/src/dist/index.css' %}?{% now " U" %}">
@@ -6,14 +7,24 @@
 </head>
 
 <body>
-    <section class="section">
-        <div class="level">
-            <div class="level-item">
-                <img id="logo" src="{% static 'feedback/assets/logo.png' %} ">
-            </div>
-        </div>
-        {% block content %}
-        {% endblock %}
-        </div>
-    </section>
+  <section class="section">
+    <div class="level is-mobile	">
+      <div class="level-left">
+        <img
+          class="level-item"
+          id="logo"
+          src="{% static 'feedback/assets/logo.png' %} "
+        />
+      </div>
+      <div class="level-right">
+        <a
+          class="level-item is-link"
+          href="https://duosproject.github.io//"
+          target="_blank"
+          >What's DUOS?</a
+        >
+      </div>
+    </div>
+    {% block content %} {% endblock %}
+  </section>
 </body>
