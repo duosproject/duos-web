@@ -10,8 +10,7 @@ from feedback.db.query import Query
 
 
 def index(request):
-    context = {"title": "Collecting feedback from DUOS' subjects"}
-    return render(request, "feedback/index.html", context)
+    return render(request, "feedback/index.html")
 
 
 @require_http_methods(["GET", "POST"])
@@ -29,11 +28,12 @@ def author_survey(request, writes_hash):
         q.insert_validation(validation_data)
         q.close()
 
-        return HttpResponse("nice")
+        return HttpResponse("thanks!")
 
-    author_id, *_ = [ref["author_id"] for ref in references]
-    article_id, *_ = [ref["article_id"] for ref in references]
-    ref_id, *_ = [ref["ref_id"] for ref in references]
+    # just grab the first entry of the _id columns
+    author_id = next((ref["author_id"] for ref in references))
+    article_id = next((ref["article_id"] for ref in references))
+    ref_id = next((ref["ref_id"] for ref in references))
 
     props = {
         "authorName": q.author_name(author_id),

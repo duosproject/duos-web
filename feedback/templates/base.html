@@ -7,19 +7,19 @@
 </head>
 
 <body>
-  <section class="section">
+  <section class="section container" id="top-container">
     <div class="level is-mobile	">
       <div class="level-left">
-        <img
+        <a href="{% url 'index' %}"><img
           class="level-item"
           id="logo"
           src="{% static 'feedback/assets/logo.png' %} "
-        />
+        /></a>
       </div>
       <div class="level-right">
         <a
           class="level-item is-link"
-          href="https://duosproject.github.io//"
+          href="https://duosproject.github.io/"
           target="_blank"
           >What's DUOS?</a
         >

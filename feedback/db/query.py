@@ -6,6 +6,8 @@ from sqlalchemy.engine.url import URL
 
 
 class Query:
+    """consolidation of database reads and writes for use in views.py."""
+
     def __init__(self):
         env = environ.Env()
         env.read_env(".env")
@@ -28,6 +30,7 @@ class Query:
         self.conn = engine.connect()
 
     def survey(self, writes_hash):
+        """returns values for individualized author surveys."""
 
         # pretend they're sql aliases
         ar = self.metadata.tables["article"]
@@ -64,6 +67,7 @@ class Query:
         return result.fetchall()
 
     def author_name(self, author_id):
+        """returns author name"""
         author = self.metadata.tables["author"]
 
         return self.conn.execute(
@@ -82,6 +86,7 @@ class Query:
         ).fetchone()[0]
 
     def insert_validation(self, validation_data):
+        """returns nothing. inserts the data from a filled out form."""
         self.conn.execute(
             (
                 self.metadata.tables["validates"]
