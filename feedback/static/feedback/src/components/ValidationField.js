@@ -5,15 +5,23 @@ export default class ValidationField extends Component {
     super(props);
 
     this.USER_DONE_TYPING_TIMEOUT = 3500;
+    this.ANSWERS = [
+      { display: "Yes", value: "yes" },
+      { display: "No", value: "no" },
+      { display: "Let me clarify", value: "clarify" },
+      { display: "Unsure", value: "unsure" }
+    ];
     this.handleUserIsTyping = this.handleUserIsTyping.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { userResponse, datasetId, articleId, authorId, refId } = this.props;
-    const { selection, clarification } = userResponse;
+    const { datasetId, articleId, authorId, refId } = this.props;
+    const { selection, clarification } = this.props.userResponse;
 
     if (
+      // the user is pressing a different button than last press
       prevProps.userResponse.selection !== selection ||
+      // user's typed clarification has changed
       prevProps.userResponse.clarification !== clarification
     ) {
       fetch(window.location.href, {
@@ -40,13 +48,6 @@ export default class ValidationField extends Component {
   }
 
   render() {
-    const ANSWERS = [
-      { display: "Yes", value: "yes" },
-      { display: "No", value: "no" },
-      { display: "Let me clarify", value: "clarify" },
-      { display: "Unsure", value: "unsure" }
-    ];
-
     return (
       <div className="field columns is-multiline is-centered">
         <div className="column">
@@ -54,12 +55,12 @@ export default class ValidationField extends Component {
         </div>
         {/* template string cuz bulma is weird */}
         <div className={`column buttons has-addons control`}>
-          {ANSWERS.map(({ value, display }) => (
+          {this.ANSWERS.map(({ value, display }) => (
             <button
               onClick={e => this.props.onChange(e)}
               className={`button ${
                 this.props.userResponse.selection == value
-                  ? "is-selected is-primary"
+                  ? "is-selected is-primary has-text-white-ter"
                   : ""
               }`}
               value={value}
