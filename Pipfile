@@ -6,12 +6,10 @@ name = "pypi"
 
 [packages]
 django = "*"
-pytest = "*"
 requests = "*"
 python-dotenv = "*"
 django-environ = "*"
 "psycopg2-binary" = "*"
-black = "*"
 sqlalchemy = "*"
 
 [dev-packages]

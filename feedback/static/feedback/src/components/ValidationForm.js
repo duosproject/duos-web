@@ -53,9 +53,9 @@ export default class ValidationForm extends Component {
           </div>
         ) : (
           <progress
-            className="progress is-info"
-            value={this.state.progress} // count of answers so far
-            max={Object.keys(this.state.userResponses).length} // total number of questions
+            className="progress is-primary"
+            value={this.state.progress}
+            max={Object.keys(this.state.userResponses).length}
           />
         )}
         {this.props.datasets.map(({ name, id }) => (
