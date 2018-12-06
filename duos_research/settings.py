@@ -1,5 +1,6 @@
 import os
 import environ
+import django_heroku
 
 env = environ.Env()
 env.read_env(".env")
@@ -48,4 +49,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
-STATIC_ROOT = print(os.path.join(BASE_DIR, "static"))
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+django_heroku.settings(locals(), test_runner=False)
