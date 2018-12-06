@@ -18,7 +18,8 @@
   },
   "scripts": {
     "build": "parcel build index.js",
-    "watch": "parcel watch index.js"
+    "watch": "parcel watch index.js",
+    "postinstall": "npm run build"
   },
   "author": "Ainsley McGrath",
   "license": "MIT"
