@@ -76,7 +76,5 @@ venv.bak/
 # JS
 **/node_modules/**
 
-# Reference Material
-*.pdf
-DUOS_Validation.png
-DUOSValidationERD.png
+# Garbage
+.DS_Store
