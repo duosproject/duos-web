@@ -11,7 +11,11 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = []
 
 # Application definition
-INSTALLED_APPS = ["feedback.apps.FeedbackConfig", "django.contrib.staticfiles"]
+INSTALLED_APPS = [
+    "feedback.apps.FeedbackConfig",
+    "search.apps.SearchConfig",
+    "django.contrib.staticfiles",
+]
 MIDDLEWARE = []
 ROOT_URLCONF = "duos_research.urls"
 

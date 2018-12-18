@@ -1,4 +1,3 @@
-import environ
 from django.urls import path
 
 from feedback import views

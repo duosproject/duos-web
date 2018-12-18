@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="root"></div>
+<script>
+    window.props = {helloWorld:"hey"} //{{ props | safe }};
+    window.root = document.getElementById('root');
+</script>
+{% load static %}
+<script src={% static 'search/src/dist/index.js' %}?{% now "U" %}></script>
+{% endblock %}
