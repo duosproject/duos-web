@@ -13,10 +13,18 @@ export default function SearchBar(props) {
             name="searchQuery"
             autoFocus={true}
             onChange={props.onChange}
+            onKeyUp={props.onSearch}
+            title="Type your search here; Look up articles and datasets"
           />
         </span>
         <span className="control">
-          <button className="button" id="search-button" value="ok">
+          <button
+            className="button"
+            id="search-button"
+            value="ok"
+            title="Click here to perform your search"
+            onClick={props.onSearch}
+          >
             Search
           </button>
         </span>

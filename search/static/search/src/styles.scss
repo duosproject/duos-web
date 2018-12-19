@@ -26,8 +26,11 @@ $logo-height: 30px;
 }
 
 .is-link:hover {
-    background-color: $hover;
-    color: $primary;
+    transition: $transition-length all;
+    &:hover {
+        background-color: $hover;
+        color: $primary;
+    }
 }
 
 img#logo { 
