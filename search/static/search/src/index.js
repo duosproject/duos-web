@@ -2,6 +2,4 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App";
 
-// import "./styles.scss";
-
-ReactDOM.render(<App {...window.props} />, window.root);
+ReactDOM.render(<App />, window.root);
