@@ -24021,8 +24021,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function SearchBar(props) {
   return _react.default.createElement("div", {
-    className: "column is-full box"
-  }, _react.default.createElement("div", {
     className: "field has-addons"
   }, _react.default.createElement("span", {
     className: "control is-expanded"
@@ -24044,9 +24042,46 @@ function SearchBar(props) {
     value: "ok",
     title: "Click here to perform your search",
     onClick: props.onSearch
-  }, "Search"))));
+  }, "Search")));
 }
-},{"react":"node_modules/react/index.js"}],"components/App.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"components/SearchResult.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = SearchResult;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function SearchResult(props) {
+  return _react.default.createElement("div", null, JSON.stringify(props.data));
+}
+},{"react":"node_modules/react/index.js"}],"components/SearchResultList.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = SearchResultList;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _SearchResult = _interopRequireDefault(require("./SearchResult"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function SearchResultList(props) {
+  return _react.default.createElement("div", null, _react.default.createElement("hr", null), props.resultData.resultList.map(function (result) {
+    return _react.default.createElement(_SearchResult.default, {
+      data: result,
+      key: Math.random()
+    });
+  }));
+}
+},{"react":"node_modules/react/index.js","./SearchResult":"components/SearchResult.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24057,6 +24092,10 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 var _SearchBar = _interopRequireDefault(require("./SearchBar"));
+
+var _SearchResultList = _interopRequireDefault(require("./SearchResultList"));
+
+var _SearchResult = _interopRequireDefault(require("./SearchResult"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24141,10 +24180,14 @@ function (_Component) {
         className: "columns is-multiline is-mobile content"
       }, _react.default.createElement("article", {
         className: "column is-full"
-      }, "Browse the datasets and articles collected by the DUOS web crawler."), _react.default.createElement(_SearchBar.default, {
+      }, "Browse the datasets and articles collected by the DUOS web crawler."), _react.default.createElement("div", {
+        className: "column is-full box"
+      }, _react.default.createElement(_SearchBar.default, {
         onChange: this.handleChange,
         onSearch: this.handleSearch
-      }));
+      }), "resultList" in this.state.searchResults && _react.default.createElement(_SearchResultList.default, {
+        resultData: this.state.searchResults
+      })));
     }
   }]);
 
@@ -24152,7 +24195,7 @@ function (_Component) {
 }(_react.Component);
 
 exports.default = App;
-},{"react":"node_modules/react/index.js","./SearchBar":"components/SearchBar.js"}],"index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./SearchBar":"components/SearchBar.js","./SearchResultList":"components/SearchResultList.js","./SearchResult":"components/SearchResult.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -24191,7 +24234,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58950" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54132" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

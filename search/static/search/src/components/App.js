@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import SearchBar from "./SearchBar";
+import SearchResultList from "./SearchResultList";
+import SearchResult from "./SearchResult";
 
 export default class App extends Component {
   constructor() {
@@ -43,7 +45,15 @@ export default class App extends Component {
         <article className="column is-full">
           Browse the datasets and articles collected by the DUOS web crawler.
         </article>
-        <SearchBar onChange={this.handleChange} onSearch={this.handleSearch} />
+        <div className="column is-full box">
+          <SearchBar
+            onChange={this.handleChange}
+            onSearch={this.handleSearch}
+          />
+          {"resultList" in this.state.searchResults && (
+            <SearchResultList resultData={this.state.searchResults} />
+          )}
+        </div>
       </div>
     );
   }
