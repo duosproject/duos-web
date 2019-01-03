@@ -13,6 +13,7 @@ django-environ = "*"
 sqlalchemy = "*"
 gunicorn = "*"
 django-heroku = "*"
+whoosh = "*"
 
 [dev-packages]
 pylint = "*"

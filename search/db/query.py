@@ -1,8 +1,11 @@
-from datetime import datetime
-
+import os
 import environ
-from sqlalchemy import MetaData, create_engine, select, or_
+
+from sqlalchemy import MetaData, create_engine, select
 from sqlalchemy.engine.url import URL
+from whoosh.index import create_in
+from whoosh.fields import Schema, TEXT
+from whoosh.qparser import MultifieldParser
 
 
 class Query:
@@ -45,17 +48,42 @@ class Query:
             .join(da, da.c.dataset_id == re.c.dataset_id)
         )
 
-        return self.conn.execute(
-            select([ar.c.article_title, au.c.author_name, da.c.dataset_name])
-            .where(
-                # or_(
-                # ar.c.article_title.ilike(query_string),
-                au.c.author_name == (query_string),
-                # da.c.dataset_name.ilike(query_string),
-                # )
-            )
-            .select_from(join)
+        reference_records = self.conn.execute(
+            select(
+                [ar.c.article_title, au.c.author_name, da.c.dataset_name]
+            ).select_from(join)
         ).fetchall()
+
+        # full text search
+        schema = Schema(
+            article_title=TEXT(stored=True),
+            author_name=TEXT(stored=True),
+            dataset_name=TEXT(stored=True),
+        )
+
+        if not os.path.exists("indexdir"):
+            os.mkdir("indexdir")
+
+        ix = create_in("indexdir", schema)
+        writer = ix.writer()
+
+        for record in reference_records:
+            writer.add_document(
+                article_title=record[0], author_name=record[1], dataset_name=record[2]
+            )
+
+        writer.commit()
+
+        parser = MultifieldParser(
+            ["article_title", "author_name", "dataset_name"], schema
+        )
+
+        full_text_query = parser.parse(query_string)
+        with ix.searcher() as searcher:
+            results = searcher.search(full_text_query, limit=None)
+
+            for r in results:
+                yield r
 
     def close(self):
         self.conn.close()
