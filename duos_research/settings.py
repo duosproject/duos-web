@@ -22,7 +22,7 @@ ROOT_URLCONF = "duos_research.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["duos_research/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
