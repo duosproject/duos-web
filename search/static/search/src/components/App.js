@@ -9,7 +9,7 @@ export default class App extends Component {
 
     this.state = {
       searchQuery: "",
-      searchResults: {}
+      searchResults: {},
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,10 +30,10 @@ export default class App extends Component {
     if (e.type === "click" || (e.type === "keyup" && e.keyCode === 13)) {
       fetch(`${window.location.href}?q=${this.state.searchQuery}`, {
         method: "GET",
-        headers: { "Content-Type": "application/json; charset=utf-8" }
+        headers: { "Content-Type": "application/json; charset=utf-8" },
       })
         .then(res =>
-          res.ok ? res.json() : new Error("Error fetching search results :(")
+          res.ok ? res.json() : new Error("Error fetching search results :("),
         )
         .then(json => this.setState({ searchResults: json }));
     }
@@ -44,6 +44,9 @@ export default class App extends Component {
       <div id="app" className="columns is-multiline is-mobile content">
         <article className="column is-full">
           Browse the datasets and articles collected by the DUOS web crawler.
+          <span className="has-text-weight-bold help">
+            Tip: you can use the * wildcard to search for partial terms.
+          </span>
         </article>
         <div className="column is-full box">
           <SearchBar
