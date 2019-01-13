@@ -67,9 +67,12 @@ class Query:
         ix = create_in("indexdir", schema)
         writer = ix.writer()
 
+        # yapf: disable
         for record in reference_records:
             writer.add_document(
-                article_title=record[0], author_name=record[1], dataset_name=record[2]
+                article_title=record[0],
+                author_name=record[1],
+                dataset_name=record[2]
             )
 
         writer.commit()
@@ -79,10 +82,9 @@ class Query:
         )
 
         full_text_query = parser.parse(query_string)
-        with ix.searcher() as searcher:
-            results = searcher.search(full_text_query, limit=None)
 
-            for r in results:
+        with ix.searcher() as searcher:
+            for r in searcher.search(full_text_query, limit=None):
                 yield r
 
     def close(self):

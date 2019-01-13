@@ -28,7 +28,6 @@ def index(request):
                 }
             )
         finally:
-            # make sure conn closes...
             q.close()
 
     return render(request, "search/index.html")
