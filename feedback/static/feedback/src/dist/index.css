@@ -10,16 +10,26 @@
   transition: 250ms;
 }
 .button:hover {
-  background-color: #FFDDAA;
+  background-color: #ffddaa;
 }
 
 .is-link:hover {
-  background-color: #FFDDAA;
+  background-color: #ffddaa;
   color: #666767;
 }
 
 img#logo {
   height: 30px;
+}
+
+.search-result * {
+  cursor: pointer;
+}
+.search-result h3:hover {
+  text-decoration: underline;
+}
+.search-result li:hover {
+  text-decoration: underline;
 }
 
 /*! bulma.io v0.7.2 | MIT License | github.com/jgthms/bulma */

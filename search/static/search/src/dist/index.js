@@ -24025,7 +24025,8 @@ function SearchBar(props) {
   }, _react.default.createElement("span", {
     className: "control is-expanded"
   }, _react.default.createElement("input", {
-    className: "input ",
+    className: "input",
+    value: props.value,
     id: "search-bar",
     type: "text",
     placeholder: "Look up articles and datasets",
@@ -24058,10 +24059,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function SearchResult(props) {
   return _react.default.createElement("div", {
-    className: "container content"
+    className: "container content search-result"
   }, _react.default.createElement("h3", {
+    onClick: props.onClick,
     className: "is-size-6"
-  }, props.data.articleName, " by ", props.data.authorName), _react.default.createElement("p", null, props.data.datasetName), _react.default.createElement("br", null));
+  }, props.data.articleName), "Authors:", _react.default.createElement("ul", null, props.data.authorName.map(function (a) {
+    return _react.default.createElement("li", {
+      onClick: props.onClick
+    }, a);
+  })), "Datasets:", _react.default.createElement("ul", null, props.data.datasetName.map(function (a) {
+    return _react.default.createElement("li", {
+      onClick: props.onClick
+    }, a);
+  })), _react.default.createElement("br", null));
 }
 },{"react":"node_modules/react/index.js"}],"components/SearchResultList.js":[function(require,module,exports) {
 "use strict";
@@ -24081,7 +24091,8 @@ function SearchResultList(props) {
   return _react.default.createElement("div", null, _react.default.createElement("hr", null), props.resultData.resultList.map(function (result) {
     return _react.default.createElement(_SearchResult.default, {
       data: result,
-      key: Math.random()
+      key: Math.random(),
+      onClick: props.onClick
     });
   }));
 }
@@ -24142,6 +24153,7 @@ function (_Component) {
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.handleSearch = _this.handleSearch.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.handleClickToSearch = _this.handleClickToSearch.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -24177,6 +24189,16 @@ function (_Component) {
       }
     }
   }, {
+    key: "handleClickToSearch",
+    value: function handleClickToSearch(e) {
+      e.preventDefault();
+      var searchQuery = e.target.innerText;
+      this.setState({
+        searchQuery: searchQuery
+      });
+      this.handleSearch(e);
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
@@ -24190,9 +24212,11 @@ function (_Component) {
         className: "column is-full box"
       }, _react.default.createElement(_SearchBar.default, {
         onChange: this.handleChange,
-        onSearch: this.handleSearch
+        onSearch: this.handleSearch,
+        value: this.state.searchQuery
       }), "resultList" in this.state.searchResults && _react.default.createElement(_SearchResultList.default, {
-        resultData: this.state.searchResults
+        resultData: this.state.searchResults,
+        onClick: this.handleClickToSearch
       })));
     }
   }]);
@@ -24240,7 +24264,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59829" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56104" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
