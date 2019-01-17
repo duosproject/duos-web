@@ -6,7 +6,11 @@ export default function SearchResultList(props) {
     <div>
       <hr />
       {props.resultData.resultList.map(result => (
-        <SearchResult data={result} key={Math.random()} />
+        <SearchResult
+          data={result}
+          key={Math.random()}
+          onClick={props.onClick}
+        />
       ))}
     </div>
   );

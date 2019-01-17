@@ -5,7 +5,8 @@ export default function SearchBar(props) {
     <div className="field has-addons">
       <span className="control is-expanded">
         <input
-          className="input "
+          className="input"
+          value={props.value}
           id="search-bar"
           type="text"
           placeholder="Look up articles and datasets"
@@ -22,8 +23,7 @@ export default function SearchBar(props) {
           id="search-button"
           value="ok"
           title="Click here to perform your search"
-          onClick={props.onSearch}
-        >
+          onClick={props.onSearch}>
           Search
         </button>
       </span>

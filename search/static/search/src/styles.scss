@@ -1,40 +1,40 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css?family=Lato');
+@import url("https://fonts.googleapis.com/css?family=Lato");
 
 // bulma variables
 $success: #1b751b;
 $primary: #666767;
-$family-sans-serif: 'Lato';
+$family-sans-serif: "Lato";
 
 // my variables
 $break-width: 700px;
-$hover: #FFDDAA;
+$hover: #ffddaa;
 $transition-length: 250ms;
 $logo-height: 30px;
 
 #top-container {
-    @media screen and (min-width: $break-width) {
-        width: $break-width;
-      }
+  @media screen and (min-width: $break-width) {
+    width: $break-width;
+  }
 }
 
 .button {
-    transition: $transition-length;
-    &:hover {
-        background-color: $hover;
-    }
+  transition: $transition-length;
+  &:hover {
+    background-color: $hover;
+  }
 }
 
 .is-link:hover {
-    transition: $transition-length all;
-    &:hover {
-        background-color: $hover;
-        color: $primary;
-    }
+  transition: $transition-length all;
+  &:hover {
+    background-color: $hover;
+    color: $primary;
+  }
 }
 
-img#logo { 
-    height: $logo-height;
+img#logo {
+  height: $logo-height;
 }
 
 @import "./node_modules/bulma/bulma.sass";

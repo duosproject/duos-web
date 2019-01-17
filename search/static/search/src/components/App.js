@@ -14,6 +14,7 @@ export default class App extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleClickToSearch = this.handleClickToSearch.bind(this);
   }
 
   handleChange(e) {
@@ -39,6 +40,15 @@ export default class App extends Component {
     }
   }
 
+  handleClickToSearch(e) {
+    e.preventDefault();
+
+    const searchQuery = e.target.innerText;
+
+    this.setState({ searchQuery });
+    this.handleSearch(e);
+  }
+
   render() {
     return (
       <div id="app" className="columns is-multiline is-mobile content">
@@ -52,9 +62,13 @@ export default class App extends Component {
           <SearchBar
             onChange={this.handleChange}
             onSearch={this.handleSearch}
+            value={this.state.searchQuery}
           />
           {"resultList" in this.state.searchResults && (
-            <SearchResultList resultData={this.state.searchResults} />
+            <SearchResultList
+              resultData={this.state.searchResults}
+              onClick={this.handleClickToSearch}
+            />
           )}
         </div>
       </div>
