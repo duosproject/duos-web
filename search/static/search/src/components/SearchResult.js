@@ -8,13 +8,13 @@ export default function SearchResult(props) {
       </h3>
       Authors:
       <ul>
-        {props.data.authorName.map(a => (
+        {props.data.authors.map(a => (
           <li onClick={props.onClick}>{a}</li>
         ))}
       </ul>
       Datasets:
       <ul>
-        {props.data.datasetName.map(a => (
+        {props.data.datasets.map(a => (
           <li onClick={props.onClick}>{a}</li>
         ))}
       </ul>
