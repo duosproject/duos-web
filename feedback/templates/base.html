@@ -4,16 +4,27 @@
     <link rel="stylesheet" type="text/css" href="{% static 'feedback/src/dist/index.css' %}?{% now " U" %}">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Volkhov" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134113834-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-134113834-1');
+        gtag('event', 'search');
+    </script>
 </head>
 
 <body>
   <section class="section container" id="top-container">
     <div class="level is-mobile	">
       <div class="level-left">
-        <a href="{% url 'index' %}"><img
-          class="level-item"
-          id="logo"
-          src="{% static 'feedback/assets/logo.png' %} "
+        <a href="{% url 'index' %}"
+          ><img
+            class="level-item"
+            id="logo"
+            src="{% static 'feedback/assets/logo.png' %} "
         /></a>
       </div>
       <div class="level-right">
