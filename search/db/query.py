@@ -45,14 +45,13 @@ class Query:
             .join(da, da.c.dataset_id == re.c.dataset_id)
         )
 
-        # Match user-query against text search vector
         text_search_match_records = (
             select([ar.c.article_id, au.c.author_id, da.c.dataset_id])
             .select_from(intermediate_join)
             .where(
-                func.to_tsvector(
-                    func.concat(au.c.author_name, ar.c.article_title, da.c.dataset_name)
-                ).match(query_string.replace(" ", r"|"))
+                func.concat(
+                    au.c.author_name, ar.c.article_title, da.c.dataset_name
+                ).ilike(f"""%{ query_string.replace(" ", "%") }%""")
             )
         ).cte("text_search_match_records")
 
