@@ -1,5 +1,6 @@
 import os
 import environ
+from datetime import datetime
 
 from sqlalchemy import MetaData, create_engine, select, func
 from sqlalchemy.engine.url import URL
@@ -77,6 +78,20 @@ class Query:
             .group_by(ar.c.article_title)
             .select_from(resultset_join)
         ).fetchall()
+
+    def write_session_info(self, sid, query_string):
+
+        self.conn.execute(
+            self.metadata.tables["session"]
+            .insert()
+            .values(
+                session_id=sid,
+                insert_date=datetime.now().isoformat(),
+                message=f"search term: '{query_string}'"
+                if query_string
+                else "page visit",
+            )
+        )
 
     def close(self):
         self.conn.close()

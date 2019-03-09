@@ -15,8 +15,13 @@ INSTALLED_APPS = [
     "feedback.apps.FeedbackConfig",
     "search.apps.SearchConfig",
     "django.contrib.staticfiles",
+    "django.contrib.sessions",
 ]
-MIDDLEWARE = []
+
+MIDDLEWARE = ["django.contrib.sessions.middleware.SessionMiddleware"]
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_SAVE_EVERY_REQUEST = True
+
 ROOT_URLCONF = "duos_research.urls"
 
 TEMPLATES = [
