@@ -1,5 +1,6 @@
 import os
 import environ
+import django_heroku
 
 env = environ.Env()
 env.read_env(".env")
@@ -10,14 +11,23 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = []
 
 # Application definition
-INSTALLED_APPS = ["feedback.apps.FeedbackConfig", "django.contrib.staticfiles"]
-MIDDLEWARE = []
+INSTALLED_APPS = [
+    "feedback.apps.FeedbackConfig",
+    "search.apps.SearchConfig",
+    "django.contrib.staticfiles",
+    "django.contrib.sessions",
+]
+
+MIDDLEWARE = ["django.contrib.sessions.middleware.SessionMiddleware"]
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+SESSION_SAVE_EVERY_REQUEST = True
+
 ROOT_URLCONF = "duos_research.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["duos_research/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -48,4 +58,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
-STATIC_ROOT = print(os.path.join(BASE_DIR, "static"))
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+django_heroku.settings(locals(), test_runner=False)

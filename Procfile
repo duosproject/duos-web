@@ -1,0 +1,1 @@
+web: gunicorn duos_research.wsgi;

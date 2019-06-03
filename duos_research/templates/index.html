@@ -1,0 +1,73 @@
+<head>
+  <!-- prettier-ignore -->
+  {% load static %}
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css?family=Lato:400,700|Volkhov"
+    rel="stylesheet"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    .is-link#main-link:hover {
+      transition: 250ms all;
+      background-color: #ffddaa;
+      color: #666767;
+    }
+
+    @media screen and (min-width: 700px) {
+      #top-container {
+        width: 700px;
+      }
+    }
+
+    #logo {
+      height: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="section container" id="top-container">
+    <div class="level is-mobile	">
+    <!-- TODO: stop getting static assets from another app -->
+      <div class="level-left">
+        <a href="/">
+          <img
+            class="level-item"
+            id="logo"
+            src="{% static 'feedback/assets/logo.png' %}"
+        /></a>
+      </div>
+      <div class="level-right">
+        <a
+          class="level-item is-link"
+          id="main-link"
+          href="https://duosproject.github.io/"
+          target="_blank"
+          >What's DUOS?</a
+        >
+      </div>
+    </div>
+    <h2 class="title">Welcome</h2>
+    <article class="content">
+      DUOS Project tackles the problem of extracting automatically and
+      semi-automatically the relationships between publications, datasets, and
+      methodologies. Our primary focus is on research articles in economics.
+      From each article we extract details about specific datasets used,
+      including variables and time periods as well as methodologies and
+      techniques. <br /><br />
+
+      You can learn more about the DUOS project
+      <a class="is-link" href="https://duosproject.github.io/" target="_blank"
+        >here</a
+      >. <br /><br />
+    </article>
+    <span class="has-text-weight-bold box"
+      >Search through our collected datasets and articles
+      <a href="/search/">here</a>.</span
+    >
+  </section>
+</body>

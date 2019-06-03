@@ -11,6 +11,8 @@ python-dotenv = "*"
 django-environ = "*"
 "psycopg2-binary" = "*"
 sqlalchemy = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [dev-packages]
 pylint = "*"
@@ -21,3 +23,6 @@ pylint-django = "*"
 
 [requires]
 python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true

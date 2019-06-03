@@ -8,18 +8,18 @@
     "react-dom": "^16.6.3"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "babel-core": "^7.0.0-0",
-    "babel-preset-env": "^7.0.0-0",
-    "babel-preset-react": "^7.0.0-0",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-preset-env": "^7.0.0-beta.3",
+    "babel-preset-react": "^7.0.0-beta.3",
     "bulma": "^0.7.2",
     "parcel-bundler": "^1.10.2",
-    "sass": "^1.15.1"
+    "sass": "^1.15.2"
   },
   "scripts": {
     "build": "parcel build index.js",
-    "watch": "parcel watch index.js",
-    "postinstall": "npm run build"
+    "watch": "parcel watch index.js"
   },
   "author": "Ainsley McGrath",
   "license": "MIT"
